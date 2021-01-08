@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import styles from "../sorting/sorting.module.css";
+import * as utils from "../sorting/sortingUtils";
+import { connect } from 'react-redux'
+import { GEN_RANDOM_ARRAY } from "../../actions/types";
+import { generateRandomArray } from "../../actions/arrAction";
+
 
 class ArrayOfBars extends Component {
   constructor(props) {
@@ -7,6 +12,9 @@ class ArrayOfBars extends Component {
 
     this.state = {
       array: [],
+      arrMax: 1,
+      arrSize: 1,
+    //   isArrayReset: false, 
     };
   }
 
@@ -15,40 +23,46 @@ class ArrayOfBars extends Component {
     this.resetArray();
   }
 
-  // reset the array elements
-  resetArray() {
-    let { array } = this.state;
-    // a max of 300 elements is suported for a screen width of 1200px 
-    // const arraySize = 300;
-    const arraySize = this.getRandomIntInclusive(10, 300);
-    for (let i = 0; i < arraySize; i++) {
-        // start from 1 to avoid problems of division by zero
-      array[i] = this.getRandomIntInclusive(1, 100);
+  // when the componenet is updated from a Redux action which ultimately changes the state of this component
+  componentDidUpdate() {
+    if (this.props.resetArr === true) {
+        this.resetArray();
+        this.props.generateRandomArray();  // toggle resetArr variable: stops any further resets and prevents an infinite loop
     }
-    this.setState({ array });
   }
 
-  // from MDN reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random#Getting_a_random_integer_between_two_values_inclusive
-  getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+  // reset the array and all its elements
+  resetArray() {
+    console.log("resetting array");
+    let { array, arrMax, arrSize } = this.state;
+    array = [];
+    // a max of 300 elements is suported for a screen width of 1200px
+    // const arrayarrSize = 300;
+    arrSize = utils.getRandomIntInclusive(10, 300);
+    for (let i = 0; i < arrSize; i++) {
+      // start from 1 to avoid problems of division by zero
+      array[i] = utils.getRandomIntInclusive(1, 100);
+    }
+    arrMax = Math.max(...array);
+    // arrMax = 0 ? 0.1 : arrMax;    // if the max cones out to be zero for whatever reason, set it to 0.1
+    // arrSize = array.length;
+    this.setState({ array, arrMax, arrSize });
   }
+
 
   // display array bars inline, with height proportional to element value
-  arrList = (array) => {
-    let arrMax = Math.max(...array);
-    // arrMax = 0 ? 0.1 : arrMax;    // if the max cones out to be zero for whatever reason, set it to 0.1
-    const size = array.length;
+  arrList = () => {
+    // Don't update this component's state here. Do it in componentDidUpdate() instead
+    const { array, arrMax, arrSize } = this.state;
     return array.map((val, index) => (
       <div
         className={styles.singleBar}
         key={index}
-        style={{ 
-            height: `${val*100/arrMax}%`,
-            width: `${50/(size)}rem`,
-            margin: `0 ${10/(size)}rem`
-         }}
+        style={{
+          height: `${(val * 100) / arrMax}%`,
+          width: `${50 / arrSize}rem`,
+          margin: `0 ${10 / arrSize}rem`,
+        }}
       >
         {/* {val} */}
       </div>
@@ -56,9 +70,46 @@ class ArrayOfBars extends Component {
   };
 
   render() {
-    const { array } = this.state;
-    return <div className={styles.arrayContainer}>{this.arrList(array)}</div>;
+
+    // if (this.props.isArrayToReset == true) {
+    //     if (this.state.isArrayReset == false) {
+    //         console.log("Reseeeet");
+    //         this.resetArray();
+    //         this.setArrReset();
+            
+    //     } else {
+    //     console.log("Noooope");
+    //    }
+    // }
+
+    // return <div className={styles.arrayContainer}>{this.arrList(array, arrMax, arrSize)}</div>;
+    return <div className={styles.arrayContainer}>{this.arrList()}</div>;
   }
 }
 
-export default ArrayOfBars;
+
+// to access the store
+const mapStateToProps = (state) => {
+    console.log(state.controls.resetArr);
+    // const { resetArr } = state;
+    if (state.controls.resetArr) {
+        console.log("Action dispatched successfully");
+    }
+
+    // return state;
+    return {
+        resetArr: state.controls.resetArr
+    }
+}
+
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         resetArray: () => dispatch({type: GEN_RANDOM_ARRAY }),
+//     }
+// }
+
+// higher level component
+export default connect(mapStateToProps, {generateRandomArray})(ArrayOfBars)
+
+
+// export default connect(null, {generateArr})(ArrayOfBars);

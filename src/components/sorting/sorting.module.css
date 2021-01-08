@@ -12,7 +12,7 @@
 
 .arrayContainer {
     /* position: absolute; */
-    left: 100px;
+    /* left: 100px; */  /* Has no effect?*/
     /* margin: auto; */ /* Nope */
     display: flex;
     float: left;
