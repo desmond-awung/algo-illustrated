@@ -1,5 +1,5 @@
 // evaluate actions
-import { GEN_RANDOM_ARRAY, SORT_ARRAY, RANDOM_ARRAY_DONE } from '../actions/types';
+import { GEN_RANDOM_ARRAY, SORT_ARRAY, RANDOM_ARRAY_DONE } from "../actionTypes";
 
 const initialState = {
     resetArr: false,

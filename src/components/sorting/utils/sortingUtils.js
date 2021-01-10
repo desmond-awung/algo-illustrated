@@ -6,3 +6,19 @@ export function getRandomIntInclusive(min, max) {
 }
 
 
+export class SwapAnimation {
+	// constructor(left, right, isSwapped) {
+	constructor(left, right) {
+		this.left = left;
+		this.right = right;
+		// this.isSwapped = isSwapped;		
+	}
+}
+
+export class ArrElement {
+	constructor(idx, height) {
+		this.idx = idx;
+		this.height = height; 
+	}
+} 
+

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { GEN_RANDOM_ARRAY } from '../../actions/types'
-import { generateRandomArray } from "../../actions/arrAction";
+import { GEN_RANDOM_ARRAY } from '../../redux/actionTypes'
+import { generateRandomArray } from "../../redux/action";
 
 function Controls(props) {
 
