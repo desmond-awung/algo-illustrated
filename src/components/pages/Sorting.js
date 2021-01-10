@@ -5,10 +5,6 @@ import styles from "../sorting/sorting.module.css";
 
 export class Sorting extends Component {
 
-constructor(props) {
-    super(props);
-}
-
   render() {
     return (
       <div className="container-fluid">

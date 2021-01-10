@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { GEN_RANDOM_ARRAY } from "../../redux/actionTypes";
 import { generateRandomArray, sortArray } from "../../redux/action";
 
 function Controls(props) {
@@ -21,37 +20,34 @@ function Controls(props) {
 				<div className="col-md-5">
 					<ul className="nav nav-pills">
 						<li className="nav-item">
-							<a
-								className="nav-link"
-								type="button"
+							<button
 								className="btn btn-outline-primary"
 								onClick={resetArray}
 							>
 								Generate Random Array
-							</a>
+							</button>
 						</li>
 
 						<li className="nav-item dropdown">
-							<a
-								className="nav-link dropdown-toggle"
+							<button
+								className="dropdown-toggle btn btn-outline-primary"
 								data-toggle="dropdown"
-								href="#"
 								aria-haspopup="true"
 								aria-expanded="false"
 							>
 								More Array Options
-							</a>
+							</button>
 							<div className="dropdown-menu">
-								<a className="dropdown-item" href="#">
+								<button className="dropdown-item">
 									Random Array of specific size
-								</a>
-								<a className="dropdown-item" href="#">
+								</button>
+								<button className="dropdown-item">
 									Enter Array Input
-								</a>
+								</button>
 								<div className="dropdown-divider"></div>
-								<a className="dropdown-item" href="#">
+								<button className="dropdown-item">
 									More details
-								</a>
+								</button>
 							</div>
 						</li>
 					</ul>
@@ -61,53 +57,35 @@ function Controls(props) {
 				<div className="col-md-7">
 					<ul className="nav nav-pills nav-fill">
 						<li className="nav-item">
-							<a
-								className="nav-link active"
-								type="button"
+							<button
 								className="btn btn-outline-info"
 								onClick={() => sortArrayOfBars(1)}
 							>
 								Selection Sort
-							</a>
+							</button>
 						</li>
 						<li className="nav-item">
-							<a
-								className="nav-link active"
-								type="button"
-								className="btn btn-outline-info disabled"
-							>
+							<button className="btn btn-outline-info disabled">
 								BubbleSort
-							</a>
+							</button>
 							{/* (click)="sortArray(SortType.BubbleSort)">Bubble Sort</a> */}
 						</li>
 						<li className="nav-item">
-							<a
-								className="nav-link active"
-								type="button"
-								className="btn btn-outline-info disabled"
-							>
+							<button className="btn btn-outline-info disabled">
 								Insertion Sort
-							</a>
+							</button>
 							{/* (click)="sortArray(SortType.InsertionSort)">Insertion Sort</a> */}
 						</li>
 						<li className="nav-item">
-							<a
-								className="nav-link active"
-								type="button"
-								className="btn btn-outline-info disabled"
-							>
+							<button className="btn btn-outline-info disabled">
 								Merge Sort
-							</a>
+							</button>
 							{/* (click)="sortArray(SortType.MergeSort)">Merge Sort</a> */}
 						</li>
 						<li className="nav-item">
-							<a
-								className="nav-link active"
-								type="button"
-								className="btn btn-outline-info disabled"
-							>
+							<button className="btn btn-outline-info disabled">
 								Quick Sort
-							</a>
+							</button>
 							{/* (click)="sortArray(SortType.QuickSort)">Quick Sort</a> */}
 						</li>
 					</ul>

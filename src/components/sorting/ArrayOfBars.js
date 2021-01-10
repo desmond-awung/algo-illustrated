@@ -29,7 +29,7 @@ class ArrayOfBars extends Component {
 		}
 
 		const DEFAULT_SORT_TYPE = 0;
-		if (this.props.sortType != DEFAULT_SORT_TYPE) {
+		if (this.props.sortType !== DEFAULT_SORT_TYPE) {
 			console.log(`SortType: ${this.props.sortType}`);
 			console.log(this);
 			// sort the array then reset the sortType payload
@@ -78,9 +78,6 @@ class ArrayOfBars extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				{/* <div>
-		  <button onClick={() => this.sortArrayOfBars(1)}>Sel Sort</button>
-		</div> */}
 				<div className={styles.arrayContainer}>{this.arrList()}</div>
 			</React.Fragment>
 		);
