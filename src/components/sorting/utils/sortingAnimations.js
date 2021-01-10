@@ -2,7 +2,7 @@ import * as algo from "./sortingAlgorithms";
 import styles from "../sorting.module.css";
 
 // =================================
-// for Selection Sort
+// Sort + Animation
 // =================================
 
 export async function selectionSortAnimation(state) {

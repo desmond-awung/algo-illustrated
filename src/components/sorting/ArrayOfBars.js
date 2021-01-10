@@ -4,6 +4,8 @@ import * as utils from "./utils/sortingUtils";
 import { connect } from "react-redux";
 import { generateRandomArray, sortArray } from "../../redux/action";
 import * as arraySort from "./utils/sortingAnimations";
+// for debug
+import { mergeSort } from "./utils/sortingAlgorithms"
 
 class ArrayOfBars extends Component {
 	constructor(props) {
@@ -38,6 +40,15 @@ class ArrayOfBars extends Component {
 				.then(() => this.props.sortArray(DEFAULT_SORT_TYPE))
 				.catch(() => console.log("error occured during Sorting"));
 		}
+	}
+
+	mergeSortCall = () => {
+		// console.log("Before:");
+		// console.log(this.state.array);
+		const { array, arrMax, arrSize } = mergeSort(this.state);
+		// console.log("After:");
+		this.setState({ array, arrMax, arrSize });
+		// console.log(array);
 	}
 
 	// reset the array and all its elements
@@ -78,6 +89,7 @@ class ArrayOfBars extends Component {
 	render() {
 		return (
 			<React.Fragment>
+				<button onClick={this.mergeSortCall}>MergeSort</button>
 				<div className={styles.arrayContainer}>{this.arrList()}</div>
 			</React.Fragment>
 		);
