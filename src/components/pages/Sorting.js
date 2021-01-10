@@ -18,7 +18,8 @@ constructor(props) {
         <Controls></Controls>
 
         <div className="row">
-          <div className="col-11" className={styles.sortingSection}>
+          {/* <div > */}
+          <div className={styles.sortingSection}>
           {/* <div className="col-11"> */}
 
             {/* <ArrayOfBars className={styles.arrayContainer}></ArrayOfBars> */}

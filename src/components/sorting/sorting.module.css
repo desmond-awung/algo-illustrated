@@ -4,8 +4,10 @@
     /* border: 2px solid black; */
     padding: 0;
     margin: auto;
-    display: flex;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
     justify-content: center;
+    /* justify-content: flex-start; */
     flex-direction: row;
     flex-wrap: nowrap;
 } 
@@ -21,7 +23,7 @@
     text-align: center;
     justify-content: space-around;
     /* position: absolute; */   /* Nope */
-    height: 70vh;   /* final: set to occupy 60% of view-height */
+    height: 60vh;   /* final: set to occupy 60% of view-height */
     /* background-color: rgba(72, 90, 90, 0.295); */    /* Nope */
     /* position: relative; */   /* Nope */
     align-items: flex-end;
@@ -33,3 +35,4 @@
     display: inline-block;
     /* margin: 0 1px; */
 }
+
