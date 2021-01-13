@@ -1,4 +1,5 @@
 import * as utils from "./sortingUtils";
+import styles from "../sorting.module.css";
 
 //================================================
 // sort types
@@ -43,56 +44,147 @@ export const selectionSort = (state, allAnimations) => {
 /**
  * Merge Sort
  **/
-
 export const mergeSort = (state) => {
 	let { array, arrMax, arrSize } = state;
 	//array of single element is already sorted
 	// if (arrSize <= 1) return array;
-	array = mergeSortHelper(0, arrSize - 1, array);
+	const mergeSortProcess = new MergeSortClass(array);
+	array = mergeSortProcess.mergeSortHelper(0, arrSize - 1, array);
+	mergeSortProcess.animations();
 	// update the state
-	state = {array, arrMax, arrSize};
-	return state; 
+	// state = { array, arrMax, arrSize };
+	return state;
 };
 
-const mergeSortHelper = (start, end, array) => {
-	// base case
-	if (start == end) return [array[start]];
+class MergeSortClass {
+	// constructor()
 
-	const mid = Math.floor((start + end) / 2);
-	const leftSorted = mergeSortHelper(start, mid, array); // includes the mid element
-	const rightSorted = mergeSortHelper(mid + 1, end, array); // excludes mid
+	constructor(array) {
+		this.array = array;
+		this.arrMax = Math.max(...array);
+		this.selectedPortions = [];
+		this.mergeLeft = [];
+		this.mergeRight = [];
+		this.mergedElements = [];
+		this.mergeBlocks = [];
+	}
 
-	return merge(leftSorted, rightSorted);
-};
-
-const merge = (left, right) => {
-	let result = [];
-	let i = 0,
-		j = 0,
-		k = 0;
-
-	while (i < left.length && j < right.length) {
-		if (left[i] < right[j]) {
-			result.push(left[i]);
-			i++;
-		} else {
-			result.push(right[j]);
-			j++;
+	mergeSortHelper = (start, end, array) => {
+		// base case
+		if (start == end) {
+			this.selectedPortions.push(new Selected(start, end)); // will turn blue
+			return [array[start]];
 		}
-		k++;
-	}
+		const mid = Math.floor((start + end) / 2);
+		this.selectedPortions.push(new Selected(start, end)); // will turn blue
+		const leftSorted = this.mergeSortHelper(start, mid, array); // includes the mid element
+		// hl left portion
+		this.mergeLeft.push(new Selected(start, mid));
+		const rightSorted = this.mergeSortHelper(mid + 1, end, array); // excludes mid
+		this.mergeRight.push(new Selected(mid + 1, end));
+		return this.merge(leftSorted, rightSorted, start, mid + 1);
+	};
 
-	while (i < left.length) {
-		result.push(left[i]);
-		i++;
-		k++;
-	}
+	merge = (left, right, leftStartIdx, rightStartIdx) => {
+		let result = [];
+		let i = 0,
+			j = 0,
+			k = 0;
+		let barHeight = 0;
+		let mergedElements = [];
+		while (i < left.length && j < right.length) {
+			if (left[i] < right[j]) {
+				result.push(left[i]);
+				barHeight = (this.array[leftStartIdx + i] * 100) / this.arrMax;
+				mergedElements.push(new utils.ArrElement(i, barHeight));
+				i++;
+			} else {
+				result.push(right[j]);
+				barHeight = (this.array[rightStartIdx + j] * 100) / this.arrMax;
+				mergedElements.push(new utils.ArrElement(j, barHeight));
+				j++;
+			}
+			k++;
+		}
 
-	while (j < right.length) {
-		result.push(right[j]);
-		j++;
-		k++;
-	}
+		while (i < left.length) {
+			result.push(left[i]);
+			barHeight = (this.array[leftStartIdx + i] * 100) / this.arrMax;
+			mergedElements.push(new utils.ArrElement(i, barHeight));
+			i++;
+			k++;
+		}
 
-	return result;
-};
+		while (j < right.length) {
+			result.push(right[j]);
+			barHeight = (this.array[rightStartIdx + j] * 100) / this.arrMax;
+			mergedElements.push(new utils.ArrElement(j, barHeight));
+			j++;
+			k++;
+		}
+		this.mergeBlocks.push(mergedElements);
+
+		return result;
+	};
+
+	animations = async () => {
+		const arrayBars = document.getElementsByClassName(styles.singleBar);
+		let mLeftIdx = 0, mRightIdx = 0;
+
+		// for (let i=0; i < this.mergeLeft.length; i++ ) {
+		// 	console.log("Left: ");
+		// 	console.log(this.mergeLeft[i]);
+		// }
+
+		// for (let i=0; i < this.mergeRight.length; i++) {
+		// 	console.log("Right");
+		// 	console.log(this.mergeRight[i]);
+		// }
+
+		// highlight and de-highlight based on selectedPortions
+		for (let i = 0; i < this.selectedPortions.length; i++) {
+			const {start, end} = this.selectedPortions[i];
+			console.log(`Setting color for: portion # ${i} `);
+			console.log(`Start: ${start} end: ${end}`);
+			// console.log(this.selectedPortions);
+			// console.log(`start: ${this.selectedPortions[0].start}`);
+			// console.log(`end: ${this.selectedPortions[0].end}`);
+			// console.log(`start: ${start}`);
+			for (let j=start; j <= end; j++ ) {
+				// console.log(`Setting color for: j `);
+				arrayBars[j].style.backgroundColor = "blue";
+			}
+			const delay = 1000;
+			await new Promise((done) => setTimeout(() => done(), delay));
+			for (let j=start; j <= end; j++ ) {
+				arrayBars[j].style.backgroundColor = "rgba(0, 0, 255, 0.356)";
+			}
+			await new Promise((done) => setTimeout(() => done(), delay));
+
+			// do merging if start == end, and stop when 
+
+			// if (end + 1 === this.mergeLeft[mLeftIdx].start && end === this.mergeRight[mRightIdx].end) {
+			// 	console.log("Yayyyy. Ready to merge======");
+			// 	mLeftIdx++; 
+			// 	mRightIdx++;
+			// }
+			
+
+
+		}
+
+	};
+}
+
+async function setBarColor(color, arrayBar) {
+	await new Promise(() => {
+		arrayBar.style.backgroundColor = color;
+	})
+} 
+
+class Selected {
+	constructor(start, end) {
+		this.start = start;
+		this.end = end;
+	}
+}
