@@ -57,7 +57,7 @@ class ArrayOfBars extends Component {
 		let { array, arrMax, arrSize } = this.state;
 		array = [];
 		// a max of 300 elements is suported for a screen width of 1200px
-		const maxArrSize = 5; //300;
+		const maxArrSize = 9;
 		// arrSize = utils.getRandomIntInclusive(10, maxArrSize);
 		arrSize = maxArrSize;
 		for (let i = 0; i < arrSize; i++) {
